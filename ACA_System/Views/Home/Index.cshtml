@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html style="overflow: hidden;">
+<head>
+    <title>无锡先驱数据管理系统</title>
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.js"></script>
+    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/js/dialog/dialog.js"></script>
+    <script src="~/Content/js/cookie/jquery.cookie.js"></script>
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <script src="~/Content/js/framework-ui.js"></script>
+    <script src="~/Content/js/framework-clientdata.js"></script>
+</head>
+<body class="theme-blue-gradient" style="overflow: hidden;">
+    <div id="theme-wrapper">
+        <header class="navbar" id="header-navbar">
+            <div class="container" style="padding-right: 0px;">
+                <a href="#" id="logo" class="navbar-brand">无锡先驱数据管理系统</a>
+                <div class="clearfix">
+                    <div class="nav-no-collapse navbar-left pull-left hidden-sm hidden-xs">
+                        <ul class="nav navbar-nav pull-left">
+                            <li>
+                                <a class="btn" id="make-small-nav"><i class="fa fa-bars"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav-no-collapse pull-right" id="header-nav">
+                        <ul class="nav navbar-nav pull-right">
+                            <li class="dropdown profile-dropdown">
+                                <a href="#" class="dropdown" data-toggle="dropdown">
+                                    <img src="~/Content/img/samples/msa_enabled.png" alt="" />
+                                    @* 获取登录信息*@
+                                    <span class="hidden-xs">仇鹏</span>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="~/Login/OutLogin"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div id="page-wrapper" class="container">
+            <div class="row">
+                <div id="nav-col">
+                    <section id="col-left" class="col-left-nano">
+                        <div id="col-left-inner" class="col-left-nano-content">
+                            <div id="user-left-box" class="clearfix hidden-sm hidden-xs dropdown profile-dropdown">
+                                <img alt="" src="~/Content/img/samples/msa_enabled.png" />
+                                <div class="user-box">
+                                    <span class="name">
+                                        qiupeng:超级管理员
+                                    </span>
+                                    <span class="status">
+                                        <i class="fa fa-circle"></i>在线
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li class="open">
+                                        <a href="/Home/Default"  target="ACA_iframe">
+                                            <i class="fa fa-desktop"></i>
+                                            <span>主界面</span>
+                                        </a>
+                                    </li>
+                                    <li class="open ">
+                                        <a href="#" class="dropdown-toggle ">
+                                            <i class="fa fa-gears"></i>
+                                            <span>数据查询</span>
+                                            <i class="fa fa-angle-right drop-icon"></i>
+                                        </a>
+                                        <ul class="submenu" style="display: none; overflow: auto">
+                                            <li><a class="menuItem" href="/DataQuery/Product/Index" target="ACA_iframe" data-index="1">产品信息</a></li>
+                                            <li><a class="menuItem" href="/DataQuery/Device/Index" target="ACA_iframe" data-index="2">设备信息</a></li>
+                                            <li><a class="menuItem" href="/DataQuery/Alarm/Index" target="ACA_iframe" data-index="3">报警记录</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="open ">
+                                        <a href="#" class="dropdown-toggle">
+                                            <i class="fa fa-user"></i>
+                                            <span>用户管理</span>
+                                            <i class="fa fa-angle-right drop-icon"></i>
+                                        </a>
+                                        <ul class="submenu" style="display: none; overflow: auto">
+                                            <li><a class="menuItem" href="/UserManage/UserInfo/Index" target="ACA_iframe" data-index="1">用户信息</a></li>
+                                        </ul>
+                                    </li>
+                                    @*<li class="open">
+                                        <a href="#" class="dropdown-toggle">
+                                            <i class="fa fa-bar-chart-o"></i>
+                                            <span>统计报表</span>
+                                            <i class="fa fa-angle-right drop-icon"></i>
+                                        </a>
+                                        <ul class="submenu" style="display:none;overflow:auto;height:300px">
+                                            <li class="open">
+                                                <a href="#" class="dropdown-toggle">
+                                                    <span>生产信息</span>
+                                                    <i class="fa fa-angle-right drop-icon"></i>
+                                                </a>
+                                                <ul class="submenu" style="display:none;overflow:auto">
+                                                    <li><a class="menuItem " href="/DataReport/ProductReport/Index" target="ACA_iframe" data-index="1">所有单元</a></li>
+                                                    <li><a class="menuItem " href="/DataReport/ProductReport/Index" target="ACA_iframe" data-index="2">单元1</a></li>
+                                                    <li><a class="menuItem " href="/DataReport/ProductReport/Index" target="ACA_iframe" data-index="3">单元2</a></li>
+                                                    <li><a class="menuItem " href="/DataReport/ProductReport/Index" target="ACA_iframe" data-index="4">单元3</a></li>
+                                                    <li><a class="menuItem " href="/DataReport/ProductReport/Index" target="ACA_iframe" data-index="5">单元4</a></li>
+                                                    <li><a class="menuItem " href="/DataReport/ProductReport/Index" target="ACA_iframe" data-index="6">单元5</a></li>
+                                                    <li><a class="menuItem " href="/DataReport/ProductReport/Index" target="ACA_iframe" data-index="7">单元6</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="open">
+                                                <a href="#" class="dropdown-toggle">
+                                                    <span>设备报警</span>
+                                                    <i class="fa fa-angle-right drop-icon"></i>
+                                                </a>
+                                                <ul class="submenu" style="display:block;overflow:auto">
+                                                    <li><a class="menuItem" href="/DataReport/AlarmReport/Index" target="ACA_iframe" data-index="1">所有单元</a></li>
+                                                    <li><a class="menuItem" href="/DataReport/AlarmReport/Station1" target="ACA_iframe" data-index="2">单元1</a></li>
+                                                    <li><a class="menuItem" href="/DataReport/AlarmReport/Station2" target="ACA_iframe" data-index="3">单元2</a></li>
+                                                    <li><a class="menuItem" href="/DataReport/AlarmReport/Station3" target="ACA_iframe" data-index="4">单元3</a></li>
+                                                    <li><a class="menuItem" href="/DataReport/AlarmReport/Station4" target="ACA_iframe" data-index="5">单元4</a></li>
+                                                    <li><a class="menuItem" href="/DataReport/AlarmReport/Station5" target="ACA_iframe" data-index="6">单元5</a></li>
+                                                    <li><a class="menuItem" href="/DataReport/AlarmReport/Station6" target="ACA_iframe" data-index="7">单元6</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>*@
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div id="content-wrapper">
+                    <div class="content-iframe" style="background-color: #f9f9f9; overflow: hidden;">
+                        <div class="mainContent" id="content-main" style="margin: 10px; margin-bottom: 0px; padding: 0;">
+                            <iframe name="ACA_iframe" class="ACA_iframe" width="100%" height="100%" src="/Home/Default" frameborder="0" data-id="/Home/Default"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/js/index.js"></script>
+</body>
+</html>

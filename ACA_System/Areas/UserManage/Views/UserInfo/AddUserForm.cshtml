@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>添加用户</title>
+    <script src="~/Content/js/layui/layui.js"></script>
+    <link href="~/Content/js/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+    <div style="margin-left:70px">
+        <form action="/" class="layui-form" id="addUser-form">
+            <div class="layui-form-item" style="margin-top:20px">
+                <label class="layui-form-label">姓名:</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="title" lay-verify="title" autocomplete="off" placeholder="请输入用户姓名" class="layui-input" id="user-name">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户账号:</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="title" lay-verify="title" autocomplete="off" placeholder="请输入用户账号" class="layui-input" id="user-account">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户密码:</label>
+                <div class="layui-input-inline">
+
+                        <input type="password" name="title" lay-verify="title" autocomplete="off" placeholder="请输入用户密码" class="layui-input" id="user-password">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别:</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sex" value="男" title="男" id="user-sex" checked>
+                    <input type="radio" name="sex" value="女" title="女">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属公司:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入所属公司" class="layui-input" id="user-company">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属部门:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入所属部门" class="layui-input" id="user-part">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户权限:</label>
+                <div class="layui-input-inline">
+                    <select name="user-authority" id="user-authority">
+                        <option value=""></option>
+                        <option value="0">超级管理员</option>
+                        <option value="1">管理员</option>
+                        <option value="2">用户</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">联系方式:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入联系方式" class="layui-input" id="user-phone">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入地址" class="layui-input" id="user-address">
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        layui.use('form', function () {
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+            form.render();
+        });
+    </script>
+</body>
+</html>

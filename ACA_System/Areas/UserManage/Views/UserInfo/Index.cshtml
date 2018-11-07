@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户管理</title>
+    <script src="~/Content/js/layui/layui.js"></script>
+    <link href="~/Content/js/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+    <div>
+        <table class="layui-hide" id="demo" lay-filter="test"></table>
+    </div>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+            <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+            <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+        </div>
+    </script>
+    <script>
+        layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function () {
+            var table = layui.table //表格
+            //执行一个 table 实例
+            table.render({
+                elem: '#demo'
+                , url: '/UserInfo/GetUserInfo'
+                , method: 'post'
+                , where: {
+                }
+                , height: 'full-20'
+                , title: '用户表'
+                , page: { theme: '#c00' } //开启分页
+                , toolbar: '#toolbarDemo' // 开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+                , totalRow: false//开启合计行
+                , id: 'table_userInfo'
+                , cols: [[ //表头
+                    { type: 'checkbox', fixed: 'left' }
+                    , { field: 'UserId', title: '用户ID', width: 100, sort: true, fixed: 'left' }
+                    , { field: 'UserName', title: '用户名', width: 100 }
+                    , { field: 'UserSex', title: '性别', width: 80 }
+                    , { field: 'UserCompany', title: '所属公司', sort: true, width: 100 }
+                    , { field: 'UserPart', title: '所属部门', width: 200 }
+                    , { field: 'UserAuthority', title: '用户权限', sort: true, width: 200 }
+                    , { field: 'UserPhone', title: '联系方式', width: 200 }
+                    , { field: 'UserAddress', title: '地址', width: 200 }
+                    , { field: 'UserAccount', title: '登录账号', hide: true }
+                    , { field: 'UserPassword', title: '登录密码', hide: true }
+                ]]
+            });
+
+            //监听事件
+            table.on('toolbar(test)', function (obj) {
+                switch (obj.event) {
+                    case 'add':
+                        addUser();
+                        break;
+                    case 'delete':
+                        deleteUser();
+                        break;
+                    case 'update':
+                        editUser();
+                        break;
+                };
+            });
+            //添加用户
+            function addUser() {
+                layer.open({
+                    type: 2
+                    , skin: 'layui-layer-molv'
+                    , title: '添加用户'
+                    , content: '/UserManage/UserInfo/AddUserForm'
+                    , area: ['500px', '550px']
+                    , btn: ['确定', '取消']
+                    , yes: function (index, layero) {
+                        //获取从表单传递过来的值
+
+                        var submitID = 'addUser-form'
+                            , submit = layero.find('iframe').contents().find('#' + submitID);
+                        var name = $(submit).find('#user-name').val();
+                        var account = $(submit).find('#user-account').val();
+                        var password = $(submit).find('#user-password').val();
+                        var sex = $(submit).find('input[name="sex"]:checked').val();
+                        var company = $(submit).find('#user-company').val();
+                        var part = $(submit).find('#user-part').val();
+                        var authority = $(submit).find('#user-authority option:selected').val();
+                        var phone = $(submit).find('#user-phone').val();
+                        var address = $(submit).find('#user-address').val();
+                        //向后端提交添加用户(ajax)
+                        $.ajax({
+                            url: '/UserManage/UserInfo/AddUser'
+                            , type: 'post'
+                            , dataType: 'json'
+                            , data: {
+                                name: name, account: account, password: password, sex: sex, company: company, part: part
+                                , authority: authority, phone: phone, address: address
+                            }
+                            , success: function (data) {
+                                if (data.state == 'success') {
+                                    layer.msg('添加用户成功')
+                                }
+                                else layer.msg(data.message);
+                            }
+                        });
+                        //提交 Ajax 成功后，静态更新表格中的数据
+                        table.reload('table_userInfo'); //数据刷新
+                        layer.close(index); //关闭弹层
+                    }
+                });
+            }
+
+            //删除用户
+            function deleteUser() {
+                var checkStatus = table.checkStatus('table_userInfo')
+                    , checkData = checkStatus.data; //得到选中的数据
+
+                if (checkData.length === 0) {
+                    return layer.msg('请选择数据');
+                }
+                else if (checkData.length > 1) {
+                    return layer.msg('只能选择一行数据');
+                }
+                layer.prompt({
+                    formType: 1
+                    , title: '敏感操作，请验证口令'
+                }, function (value, index) {
+                    layer.close(index);
+                    if (value != 'wxaca') {
+                        layer.msg("口令错误")
+                    }
+                    else {
+                        layer.confirm('确定删除吗？', function (index) {
+                            layer.close(index);
+                            //执行 Ajax（请求后端删除对应id用户)后重载
+                            $.ajax({
+                                url: '/UserInfo/DeleteUser'
+                                , type: 'post'
+                                , dataType: 'json'
+                                , data: {
+                                    id: checkData[0].UserId
+                                    , name: checkData[0].UserName
+                                }
+                                , success: function (data) {
+                                    if (data.state = "sucess") {
+                                        layer.msg('删除成功');
+                                    }
+                                    else {
+                                        layer.msg(data.message);
+                                    }
+                                }
+
+                            });
+                            //重新加载数据表格
+                            table.reload('table_userInfo');
+
+                        });
+
+                    }
+                });
+            }
+            //编辑用户
+            function editUser() {
+                var checkStatus = table.checkStatus('table_userInfo')
+                    , checkData = checkStatus.data; //得到选中的数据
+
+                if (checkData.length === 0) {
+                    return layer.msg('请选择数据');
+                }
+                else if (checkData.length > 1) {
+                    return layer.msg('只能选择一行数据');
+                }
+                layer.prompt({
+                    formType: 1
+                    , title: '敏感操作，请验证口令'
+                }, function (value, index) {
+
+                    if (value != 'wxaca') {
+                        layer.msg("口令错误")
+                    }
+                    else {
+                        layer.close(index);
+                        //验证口令正确，进行编辑操作
+                        layer.open({
+                            type: 2
+                            , skin: 'layui-layer-molv'
+                            , title: '用户信息编辑'
+                            , content: '/UserManage/UserInfo/EditUserForm'
+                            , area: ['500px', '550px']
+                            , btn: ['确定', '取消']
+                            , success: function (layero, index) {
+                                var submitID = 'editUser-form'
+                                    //获取表单
+                                    , submit = layero.find('iframe').contents().find('#' + submitID);
+                                //表单呈现所选用户数据
+                                $(submit).find('#user-name').attr('value', checkData[0].UserName);
+                                $(submit).find('#user-account').attr('value', checkData[0].UserAccount);
+                                $(submit).find('#user-password').attr('value', checkData[0].UserPassword);
+                                if (checkData[0].UserSex == '男') {
+                                    $(submit).find('#user-sex1').attr('checked', 'checked');
+                                }
+                                else {
+                                    $(submit).find('#user-sex2').attr('checked', 'checked');
+                                }
+                                $(submit).find('#user-company').attr('value', checkData[0].UserCompany);
+                                $(submit).find('#user-part').attr('value', checkData[0].UserPart);
+                                $(submit).find('#user-phone').attr('value', checkData[0].UserPhone);
+                                $(submit).find('#user-address').attr('value', checkData[0].UserAddress);
+                                var authority = checkData[0].UserAuthority;
+                                switch (authority) {
+                                    case '超级管理员':
+                                        $(submit).find('#user-authority').val('0');
+                                        break;
+                                    case '管理员':
+                                        $(submit).find('#user-authority').val('1');
+                                        break;
+                                    case '用户':
+                                        $(submit).find('#user-authority').val('2');
+                                        break;
+                                    default:
+                                }
+
+                            }
+                            , yes: function (index, layero) {
+                                //获取从表单传递过来的
+                                var submitID = 'editUser-form'
+                                , submit = layero.find('iframe').contents().find('#' + submitID);
+                                var id = checkData[0].UserId;
+                                var name = $(submit).find('#user-name').val();
+                                var account = $(submit).find('#user-account').val();
+                                var password = $(submit).find('#user-password').val();
+                                var sex = $(submit).find('input[name="sex"]:checked').val();
+                                var company = $(submit).find('#user-company').val();
+                                var part = $(submit).find('#user-part').val();
+                                var authority = $(submit).find('#user-authority option:selected').val();
+                                var phone = $(submit).find('#user-phone').val();
+                                var address = $(submit).find('#user-address').val();
+                                //向后端提交修改用户信息(ajax)
+                                $.ajax({
+                                    url: '/UserManage/UserInfo/UpdateUser'
+                                    , type: 'post'
+                                    , dataType: 'json'
+                                    , data: {
+                                        id: id, name: name, account: account, password: password, sex: sex, company: company
+                                        , part: part, authority: authority, phone: phone, address: address
+                                    }
+                                    //回调成功
+                                    , success: function (data) {
+                                        if (data.state == 'success') {
+                                            layer.msg('修改用户信息成功')
+                                        }
+                                        else layer.msg(data.message);
+                                    }
+                                });
+                                //提交 Ajax 成功后，静态更新表格中的数据(更新修改后的数据)
+                                table.reload('table_userInfo'); //数据刷新
+                                layer.close(index); //关闭弹层
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
+    </script>
+</body>
+</html>
