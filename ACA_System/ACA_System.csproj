@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ACA_System</RootNamespace>
     <AssemblyName>ACA_System</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress>true</Use64BitIISExpress>
@@ -47,12 +47,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\先驱项目\ACA_BS\project\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="React.Web.Mvc4, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Web.Mvc4.4.0.0-beta5\lib\net40\React.Web.Mvc4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -62,9 +69,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -146,18 +153,29 @@
     <Compile Include="Areas\DataQuery\Controllers\AlarmController.cs" />
     <Compile Include="Areas\DataQuery\Controllers\DeviceController.cs" />
     <Compile Include="Areas\DataQuery\Controllers\ProductController.cs" />
+    <Compile Include="Areas\DataQuery\Controllers\WorkController.cs" />
     <Compile Include="Areas\DataQuery\DataQueryAreaRegistration.cs" />
     <Compile Include="Areas\DataQuery\Models\AlarmEntity.cs" />
     <Compile Include="Areas\DataQuery\Models\DeviceEntity.cs" />
     <Compile Include="Areas\DataQuery\Models\ProductEntity.cs" />
+    <Compile Include="Areas\DataQuery\Models\WorkEntity.cs" />
+    <Compile Include="Areas\SqlService\AlarmService.cs" />
+    <Compile Include="Areas\SqlService\DbHelper.cs" />
+    <Compile Include="Areas\SqlService\DeviceService.cs" />
+    <Compile Include="Areas\SqlService\ProductCodeService.cs" />
+    <Compile Include="Areas\SqlService\ProductService.cs" />
+    <Compile Include="Areas\SqlService\SqlHelper.cs" />
+    <Compile Include="Areas\SqlService\UserService.cs" />
     <Compile Include="Areas\DataReport\Controllers\AlarmReportController.cs" />
     <Compile Include="Areas\DataReport\DataReportAreaRegistration.cs" />
     <Compile Include="Areas\DataReport\Controllers\ProductReportController.cs" />
+    <Compile Include="Areas\SqlService\WorkService.cs" />
     <Compile Include="Areas\UserManage\Controllers\UserInfoController.cs" />
     <Compile Include="Areas\UserManage\Models\UserEntity.cs" />
     <Compile Include="Areas\UserManage\UserManageAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ReactController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -175,7 +193,9 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\weathericons-regular-webfont.svg" />
+    <Content Include="Content\img\4b71326f-9007-4519-8e02-8f789caaad6e.jpg" />
     <Content Include="Content\img\ajax-loader.gif" />
+    <Content Include="Content\img\photo-1543094585-3629d00f6f3a.jpg" />
     <Content Include="Content\img\samples\angelina-300.jpg" />
     <Content Include="Content\img\samples\emma-300.jpg" />
     <Content Include="Content\img\samples\emma.png" />
@@ -197,6 +217,7 @@
     <Content Include="Content\img\samples\scarlet-159.png" />
     <Content Include="Content\img\samples\scarlet.png" />
     <Content Include="Content\img\samples\scarlett-300.jpg" />
+    <Content Include="Content\img\sign_bg.db29b0fb.png" />
     <Content Include="Content\js\bootstrap\bootstrap.js" />
     <Content Include="Content\js\bootstrap\bootstrap.min.css" />
     <Content Include="Content\js\chalk.js" />
@@ -409,6 +430,9 @@
     <Content Include="Content\js\md5\jquery.md5.js" />
     <Content Include="Content\js\qrcode\jquery.qrcode.js" />
     <Content Include="Content\js\qrcode\qrcode.js" />
+    <Content Include="Content\js\React\babel.min.js" />
+    <Content Include="Content\js\React\react-dom.development.js" />
+    <Content Include="Content\js\React\react.development.js" />
     <Content Include="Content\js\select2\select2.min.css" />
     <Content Include="Content\js\select2\select2.min.js" />
     <Content Include="Content\js\simditor\css\simditor.css" />
@@ -519,9 +543,6 @@
     <Content Include="Content\js\simditor\css\editor.scss" />
     <Content Include="Content\js\simditor\css\fonticon.scss" />
     <Content Include="Content\js\simditor\css\simditor.scss" />
-    <Content Include="Configs\database.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Configs\log4net.config" />
     <Content Include="Configs\system.config" />
     <Content Include="Areas\DataQuery\Views\web.config" />
@@ -544,6 +565,7 @@
     <Content Include="Content\js\layui\font\iconfont.woff" />
     <Content Include="Areas\UserManage\Views\UserInfo\AddUserForm.cshtml" />
     <Content Include="Areas\UserManage\Views\UserInfo\EditUserForm.cshtml" />
+    <Content Include="Areas\DataQuery\Views\Work\Index.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -556,22 +578,19 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Default.cshtml" />
+    <Content Include="Views\Web.config" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.Debug.config">
+    <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
+    </None>
+    <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Shared\_Form.cshtml" />
-    <Content Include="Views\Shared\_Index.cshtml" />
-    <Content Include="Views\Shared\_LayoutIndex.cshtml" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Default.cshtml" />
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

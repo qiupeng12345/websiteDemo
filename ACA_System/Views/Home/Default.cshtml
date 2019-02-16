@@ -13,128 +13,205 @@
     <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
     <script src="~/Content/js/charts/echarts.js"></script>
     <script src="~/Content/js/chalk.js"></script>
+    <script src="~/Content/js/layui/layui.js"></script>
+    <link href="~/Content/js/layui/css/layui.css" rel="stylesheet" />
     <script>
+        //刷新整机人工台
         function RefreshChart1() {
+            console.log(window.dateStart);
+            console.log(window.dateEnd);
             $.ajax({
                 url: "/Home/RefreshCharts",
+                data: { time1: window.dateStart, time2: window.dateEnd },
                 type: "Post",
                 dataType: "Json",
                 success: function (data) {
+
+                    var seriesData = [];
+
+                    var legendData = [];
+                    //定义一个object引用类型对象，
+                    var map = {};
+                    //循环向数组中放入值
+                    for (var i = 0; i < data.data.length; i++) {
+
+                        map = {};
+
+                        map.name = data.data[i].name;
+
+                        map.value = data.data[i].value;
+
+                        seriesData[i] = map;
+
+                        legendData[i] = map.name;
+                    }
                     //for (var i = 0; i < data.length; i++) {
                     //    nums.push(data[i]);
                     //}
                     myChart1.setOption({
+                        title: {
+                            text: "整机人工台总数:  " + data.count,
+                        },
+                        legend: {
+                            data: legendData,
+                        },
                         series: {
-                            label: seriesLabel,
-                            name: '合格',
-                            type: 'bar',
-                            data: data.data[0],
+                            data: seriesData,
                         }
                     });
 
                 }
             });
         }
+        ///刷新生产包装
         function RefreshChart2() {
             $.ajax({
-                url: "/Home/RefreshCharts",
+                url: "/Home/RefreshCharts2",
+                data: { time1: window.dateStart, time2: window.dateEnd },
                 type: "Post",
                 dataType: "Json",
                 success: function (data) {
+
+                    var seriesData = [];
+
+                    var legendData = [];
+                    //定义一个object引用类型对象，
+                    var map = {};
+                    //循环向数组中放入值
+                    for (var i = 0; i < data.data.length; i++) {
+
+                        map = {};
+
+                        map.name = data.data[i].name;
+
+                        map.value = data.data[i].value;
+
+                        seriesData[i] = map;
+
+                        legendData[i] = map.name;
+                    }
                     //for (var i = 0; i < data.length; i++) {
                     //    nums.push(data[i]);
                     //}
                     myChart2.setOption({
+                        title: {
+                            text: "生产包装总数:  " + data.count,
+                            x: 'center'
+                        },
+                        legend: {
+                            data: legendData,
+                        },
                         series: {
-                            label: seriesLabel,
-                            name: '合格',
-                            type: 'bar',
-                            data: data.data,
+                            data: seriesData,
                         }
                     });
 
                 }
             });
         }
+        //刷新报修合格率
         function RefreshChart3() {
             $.ajax({
-                url: "/Home/RefreshCharts",
+                url: "/Home/RefreshCharts3",
+                data: { time1: window.dateStart, time2: window.dateEnd },
                 type: "Post",
                 dataType: "Json",
                 success: function (data) {
-                    //for (var i = 0; i < data.length; i++) {
-                    //    nums.push(data[i]);
-                    //}
                     myChart3.setOption({
+                        title: {
+                            text: "报修总数:  " + data.count
+                        },
                         series: {
-                            label: seriesLabel,
-                            name: '合格',
-                            type: 'bar',
-                            data: data.data,
+                            data: [{
+                                value: data.data.value,
+                                name: data.data.name,
+                            }],
                         }
                     });
 
                 }
             });
         }
+        //刷新返工总数
         function RefreshChart4() {
             $.ajax({
-                url: "/Home/RefreshCharts",
+                url: "/Home/RefreshCharts4",
+                data: { time1: window.dateStart, time2: window.dateEnd },
                 type: "Post",
                 dataType: "Json",
                 success: function (data) {
-                    //for (var i = 0; i < data.length; i++) {
-                    //    nums.push(data[i]);
-                    //}
                     myChart4.setOption({
                         series: {
-                            label: seriesLabel,
-                            name: '合格',
-                            type: 'bar',
-                            data: data.data,
+                            data: [{
+                                value: data.data,
+                            }],
                         }
                     });
 
                 }
             });
         }
-        //$(function () {
-        //    $("#btn_test").click(function () {
-        //        $.ajax({
-        //            url: "/Home/RefreshCharts",
-        //            type: "Post",
-        //            dataType: "Json",
-        //            success: function (data) {
-        //                //for (var i = 0; i < data.length; i++) {
-        //                //    nums.push(data[i]);
-        //                //}
-        //                    myChart1.setOption({
-        //                        series: {
-        //                            label: seriesLabel,
-        //                            name: '合格',
-        //                            type: 'bar',
-        //                            data: data.data,
-        //                        }
-        //                    });
-                       
-        //            }
-        //        });
-        //    });
-            
-        //    });
         var t1 = window.setInterval("RefreshChart1()", 5000);
+        var t2 = window.setInterval("RefreshChart2()", 5000);
+        var t3 = window.setInterval("RefreshChart3()", 5000);
+        var t4 = window.setInterval("RefreshChart4()", 5000);
+        $(function () {
+            RefreshChart1();
+            RefreshChart2();
+            RefreshChart3();
+            RefreshChart4();
+        });
     </script>
 </head>
-<body >
-    <div style="clear:both">
-        <div id="main" style="width:600px;height:350px;display:inline-block " ></div>
-        <div id="ndgr" style="width:600px;height:350px;display:inline-block"></div>
+<body>
+    <div style="margin-left:100px;margin-bottom:30px">
+        <span style="color:#f40 ">开始时间:</span>
+        <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+            <!-- 注意：这一层元素并不是必须的 -->
+            <input type="text" class="layui-input" id="test1" placeholder="请选择时间" />
+        </div>
+        <span style="color:#f40">结束时间:</span>
+        <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+            <input type="text" class="layui-input" id="test2" placeholder="请选择时间" />
+        </div>
     </div>
+
+
+    <div style="clear:both">
+        <div id="zhengji" style="width:800px;height:400px;display:inline-block ;margin-left:20px;"></div>
+        <div id="shengchan" style="width:800px;height:400px;display:inline-block;margin-left:30px;"></div>
+    </div>
+
     <div>
-        <div id="zhexian" style="width:600px;height:350px;display:inline-block;"></div>
-        <div id="yibiao" style="width:600px;height:350px;display:inline-block"></div>
+        <div id="baoxiu" style="width:800px;height:400px;display:inline-block;margin-left:20px;margin-top:10px"> </div>
+        <div id="fangong" style="width:800px;height:400px;display:inline-block;margin-left:30px;margin-top:10px"></div>
     </div>
     <script>
+        layui.use(['laydate'], function () {
+            var laydate = layui.laydate; //日期
+            var dd = new Date();
+            var year = dd.getFullYear();
+            var month = dd.getMonth() + 1;
+            var day = dd.getDate();
+            var day1 = day + 1;
+            window.dateStart = year + "-" + month + "-" + day;
+            window.dateEnd = year + "-" + month + "-" + day1;
+            laydate.render({
+                elem: '#test1',
+
+                value: window.dateStart
+                , done: function (value, date, endDate) {
+                    window.dateStart = value;
+                }
+            });
+            laydate.render({
+                elem: '#test2',
+                value: window.dateEnd
+                , done: function (value, date, endDate) {
+                    window.dateEnd = value;
+                }
+            });
+        });
         var seriesLabel = {
             normal: {
                 show: true,
@@ -142,152 +219,73 @@
                 textBorderWidth: 2
             }
         };
-        var myChart1 = echarts.init(document.getElementById('main'),'chalk');
+        //整机人工台charts初始化
+        var myChart1 = echarts.init(document.getElementById('zhengji'), 'chalk');
         var option1 = {
-            title: {
-                text: '各单元测试情况'
-            },
             tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'shadow'
-                }
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            title: {
+                text: "整机人工台总数",
+                x: 'center'
             },
             legend: {
-                data: ['合格', '不合格']
-            },
-            xAxis: {
-                data: ["回路电阻", "耐压", "校对", "瞬时", "整机", "激光打标"]
-            },
-            yAxis: {
-
+                orient: 'vertical',
+                left: 'right',
             },
             series: [{
-                label: seriesLabel,
-                name: '合格',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20],
-            },
-                {
-                label: seriesLabel,
-                name: '不合格',
-                type: 'bar',
-                data: [5, 15, 25, 35, 45,50],
-            }
-            ]
+                name: "整机人工台数量",
+                type: 'pie',
+                radius: '50%',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{b} : {c}',
+                    }
+                },
+            }]
         };
         myChart1.setOption(option1);
-        var myChart2 = echarts.init(document.getElementById('ndgr'),'chalk');
+        //生产包装charts初始化
+        var myChart2 = echarts.init(document.getElementById('shengchan'), 'chalk');
         var option2 = {
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%)"
             },
             title: {
-                text: "各单元合格数量",
+                text: "生产包装总数",
                 x: 'center'
             },
             legend: {
                 orient: 'vertical',
                 left: 'right',
-                data: ["回路电阻", "耐压", "校对", "瞬时", "整机", "激光打标"]
             },
             series: [{
-                name: "合格数量",
+                name: "生产包装总数",
                 type: 'pie',
                 radius: '50%',
-                data: [
-                    { value: 235, name: '回路电阻' },
-                    { value: 274, name: '耐压' },
-                    { value: 310, name: '校对' },
-                    { value: 335, name: '瞬时' },
-                    { value: 400, name: '整机' },
-                    { value: 500, name: '激光打标' },
-                ]
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{b} : {c}',
+                    }
+                },
             }]
         };
         myChart2.setOption(option2);
-        var myChart3 = echarts.init(document.getElementById('zhexian'),'chalk');
+        ///报修
+        var myChart3 = echarts.init(document.getElementById('baoxiu'), 'chalk');
         var option3 = {
             title: {
-                text: "一周生产总数",
-                x: 'left',
+                
+                x: 'center',
             },
             tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                left: 'center',
-                data: ["回路电阻", "耐压", "校对", "瞬时", "整机", "激光打标"],
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            },
-            yAxis: {
-                type: 'value',
-            },
-            series: [
-                {
-                    
-                    name: '回路电阻',
-                    type: 'line',
-                    stack: '总量',
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                },
-                {
-                    name: '耐压',
-                    type: 'line',
-                    stack: '总量',
-                    data: [220, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name: '校对',
-                    type: 'line',
-                    stack: '总量',
-                    data: [150, 232, 201, 154, 190, 330, 410]
-                },
-                {
-                    name: '瞬时',
-                    type: 'line',
-                    stack: '总量',
-                    data: [320, 332, 301, 334, 390, 330, 320]
-                },
-                {
-                    name: '整机',
-                    type: 'line',
-                    stack: '总量',
-                    data: [820, 932, 901, 934, 1290, 1330, 1320]
-                },
-                {
-                    name: '激光打标',
-                    type: 'line',
-                    stack: '总量',
-                    data: [100, 200, 300, 400, 500, 600, 700]
-                },
-            ]
-        }
-        myChart3.setOption(option3);
-        var myChart4 = echarts.init(document.getElementById('yibiao'),'chalk');
-        var option4 = {
-            title: {
-                text: '当天生产任务完成率',
-                x:'center',
-            },
-            tooltip: {
-                formatter:"{b}:{c}%",
+                formatter: "{b}:{c}%",
             },
             toolbox: {
                 feature: {
@@ -296,12 +294,40 @@
             },
             series: [{
                 type: 'gauge',
-                detail: { formatter:'{value}%' },
-                data: [{value:100,name:'完成率'}],
+                detail: { formatter: '{value}%' },
+                data: [{ value: 100, name: '合格率' }],
             }]
+        };
+        myChart3.setOption(option3);
+        //返工总数
+        var myChart4 = echarts.init(document.getElementById('fangong'), 'chalk');
+        var option4 = {
+            title: {
+                text: '返工总数'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+
+            xAxis: {
+                data: ["返工总数"]
+            },
+            yAxis: {
+                type: 'value',
+            },
+            series: [{
+                label: seriesLabel,
+                name: '返工总数',
+                type: 'bar',
+
+            },
+            ]
         };
         myChart4.setOption(option4);
     </script>
-    
+
 </body>
 </html>

@@ -16,6 +16,7 @@ namespace ACA.Code
         /// 获取 返回数据
         /// </summary>
         public object data { get; set; }
+        public object count { get; set; }
     }
     /// <summary>
     /// 表示 ajax 操作结果类型的枚举

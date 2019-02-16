@@ -13,15 +13,15 @@
                 var $username = $("#txt_account");
                 var $password = $("#txt_password");
                 var $code = $("#txt_code");
-                if ($username.val() == "") {
+                if ($username.val() == "") {//eslint-disable-line
                     $("#txt_account").focus();
                     $.login.formMessage('请输入用户名/手机号/邮箱。');
                     return false;
-                } else if ($password.val() == "") {
+                } else if ($password.val() == "") { //eslint-disable-line
                     $password.focus();
                     $.login.formMessage('请输入登录密码。');
                     return false;
-                } else if ($code.val() == "") {
+                } else if ($code.val() == "") { //eslint-disable-line
                     $code.focus();
                     $.login.formMessage('请输入验证码。');
                     return false;
@@ -30,15 +30,15 @@
                     //用ajax发送登录信息到服务器
                     $.ajax({
                         url: "/Login/CheckLogin", //请求LoginController的CheckLogin方法
-                        data: { username: $.trim($username.val()), password: $.md5($.trim($password.val())), code: $.trim($code.val()) },//password进行了md5加密
+                        data: { account: $.trim($username.val()), password: $.md5($.trim($password.val())), code: $.trim($code.val()) },//password进行了md5加密
                         type: "post", //Post请求
                         dataType: "json", //json格式发送
                         success: function (data) { //data为服务器返回的数据
-                            if (data.state == "success") {
+                            if (data.state == "success") { //eslint-disable-line
                                 $("#login_button").find('span').html("登录成功，正在跳转...");
                                 window.setTimeout(function () {
                                     window.location.href = "/Home/Index";
-                                }, 500);  //500ms延时之后转向HomeController:Index
+                                }, 100);  //500ms延时之后转向HomeController:Index
                             } else {
                                 $("#login_button").removeAttr('disabled').find('span').html("登录");
                                 $("#switchCode").trigger("click");  //触发switchCode元素Click事件
@@ -62,7 +62,7 @@
                     $("#imgcode").attr("src", "/Login/GetAuthCode?time=" + Math.random()); //attr为元素设置属性，这里为img标签的src属性指向/Login/GetAuthCode?time=" + Math.random()来得到一个验证码图片
                 });
                 var login_error = top.$.cookie('ACA_login_error'); //获取ACA_login_error cookie
-                if (login_error != null) {
+                if (login_error != null) { //eslint-disable-line
                     switch (login_error) {
                         case "overdue":
                             $.login.formMessage("系统登录已超时,请重新登录");
@@ -83,7 +83,7 @@
                 //回车登录
                 document.onkeydown = function (e) {
                     if (!e) e = window.event;
-                    if ((e.keyCode || e.which) == 13) {
+                    if ((e.keyCode || e.which) == 13) { //eslint-disable-line
                         document.getElementById("login_button").focus();
                         document.getElementById("login_button").click();
                     }

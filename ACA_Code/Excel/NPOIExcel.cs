@@ -2,7 +2,7 @@
  * 使用NPOI操作Excel
  * 
  * author：qp
- *
+ * date:2018/10
 *********************************************************************************/
 using System;
 using System.Collections.Generic;

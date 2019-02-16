@@ -10,15 +10,11 @@ namespace ACA_Data.SqlService
     /// <summary>
     /// 数据库帮助类
     /// </summary>
-    public  class DbHelper
+    public static  class DbHelper
     {
         /// <summary>
         /// 连接字符串
         /// </summary>
-        public static string connectString
-        {
-            get { return ConfigurationManager.ConnectionStrings["ACADbContext"].ConnectionString; }
-        }
-        
+        public static readonly string connectString = "server=192.168.1.1;database=ACA;User ID=ACA;password=ACAACAACA";
     }
 }

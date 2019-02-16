@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html style="overflow: hidden;">
 <head>
-    <title>无锡先驱数据管理系统</title>
+    <title>江苏苏益</title>
     <link href="~/Content/css/framework-font.css" rel="stylesheet" />
     <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
     <script src="~/Content/js/bootstrap/bootstrap.js"></script>
@@ -16,7 +16,7 @@
     <div id="theme-wrapper">
         <header class="navbar" id="header-navbar">
             <div class="container" style="padding-right: 0px;">
-                <a href="#" id="logo" class="navbar-brand">无锡先驱数据管理系统</a>
+                <a href="#" id="logo" class="navbar-brand">苏益生产数据管理系统</a>
                 <div class="clearfix">
                     <div class="nav-no-collapse navbar-left pull-left hidden-sm hidden-xs">
                         <ul class="nav navbar-nav pull-left">
@@ -31,7 +31,7 @@
                                 <a href="#" class="dropdown" data-toggle="dropdown">
                                     <img src="~/Content/img/samples/msa_enabled.png" alt="" />
                                     @* 获取登录信息*@
-                                    <span class="hidden-xs">仇鹏</span>
+                                    @*<span class="hidden-xs">仇鹏</span>*@
                                 </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li><a href="~/Login/OutLogin"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
@@ -50,12 +50,12 @@
                             <div id="user-left-box" class="clearfix hidden-sm hidden-xs dropdown profile-dropdown">
                                 <img alt="" src="~/Content/img/samples/msa_enabled.png" />
                                 <div class="user-box">
-                                    <span class="name">
+                                    @*<span class="name">
                                         qiupeng:超级管理员
-                                    </span>
-                                    <span class="status">
+                                    </span>*@
+                                    @*<span class="status">
                                         <i class="fa fa-circle"></i>在线
-                                    </span>
+                                    </span>*@
                                 </div>
                             </div>
                             <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
@@ -73,12 +73,13 @@
                                             <i class="fa fa-angle-right drop-icon"></i>
                                         </a>
                                         <ul class="submenu" style="display: none; overflow: auto">
-                                            <li><a class="menuItem" href="/DataQuery/Product/Index" target="ACA_iframe" data-index="1">产品信息</a></li>
-                                            <li><a class="menuItem" href="/DataQuery/Device/Index" target="ACA_iframe" data-index="2">设备信息</a></li>
-                                            <li><a class="menuItem" href="/DataQuery/Alarm/Index" target="ACA_iframe" data-index="3">报警记录</a></li>
+                                            <li><a class="menuItem" href="/DataQuery/Work/Index" target="ACA_iframe" data-index="1">生产统计信息</a></li>
+                                            @*<li><a class="menuItem" href="/DataQuery/Product/Index" target="ACA_iframe" data-index="2">产品信息</a></li>
+                                            <li><a class="menuItem" href="/DataQuery/Device/Index" target="ACA_iframe" data-index="3">设备信息</a></li>
+                                            <li><a class="menuItem" href="/DataQuery/Alarm/Index" target="ACA_iframe" data-index="4">报警记录</a></li>*@
                                         </ul>
                                     </li>
-                                    <li class="open ">
+                                    @*<li class="open ">
                                         <a href="#" class="dropdown-toggle">
                                             <i class="fa fa-user"></i>
                                             <span>用户管理</span>
@@ -87,7 +88,7 @@
                                         <ul class="submenu" style="display: none; overflow: auto">
                                             <li><a class="menuItem" href="/UserManage/UserInfo/Index" target="ACA_iframe" data-index="1">用户信息</a></li>
                                         </ul>
-                                    </li>
+                                    </li>*@
                                     @*<li class="open">
                                         <a href="#" class="dropdown-toggle">
                                             <i class="fa fa-bar-chart-o"></i>

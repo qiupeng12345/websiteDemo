@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>生产统计数据显示</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/js/layui/layui.js"></script>
+    <link href="~/Content/js/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="margin-bottom:20px;margin-top:10px">
+        <h1 style="text-align:center;color:#f40">生产统计数据查询</h1>
+    </div>
+    <div class="demoTable" style="display:inline-block;margin-left:50px">
+        @*<span >搜索ID：</span>
+            <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+                <input class="layui-input" name="id" id="search_id" autocomplete="off" placeholder="请输入查询ID">
+            </div*@>
+        @*<span style="width:100px">单元选择:</span>
+            <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+                <select name="workSation" class="layui-select" id="select_station" style="width:200px">
+                    <option value="0">全部</option>
+                    <option value="1">回路电阻</option>
+                    <option value="2">耐压</option>
+                    <option value="3">电流校对</option>
+                    <option value="4">瞬时测试</option>
+                    <option value="5">整机测试</option>
+                    <option value="6">激光打标</option>
+                </select>
+            </div>*@
+        <span>开始时间:</span>
+        <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+            <!-- 注意：这一层元素并不是必须的 -->
+            <input type="text" class="layui-input" id="test1" placeholder="请选择时间" />
+        </div>
+        <span>结束时间:</span>
+        <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+            <input type="text" class="layui-input" id="test2" placeholder="请选择时间" />
+        </div>
+        <span>条码:</span>
+        <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+            <input type="text" class="layui-input" id="test3" placeholder="请输入条码" />
+        </div>
+        <span>配方:</span>
+        <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+            <input type="text" class="layui-input" id="test4" placeholder="请输入配方" />
+        </div>
+        <span>员工:</span>
+        <div class="layui-inline" style="margin-left:20px;margin-right:20px">
+            <input type="text" class="layui-input" id="test5" placeholder="请输入员工" />
+        </div>
+        <button class="layui-btn" data-type="reload" id="btn_search">查询</button>
+    </div>
+
+    <table class="layui-hide" id="demo"></table>
+    <script>
+        //var date1 = Date();
+        //var date2 = Date();
+        layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function () {
+            var laydate = layui.laydate //日期
+                , laypage = layui.laypage //分页
+                , layer = layui.layer //弹层
+                , table = layui.table //表格
+                , carousel = layui.carousel //轮播
+                , upload = layui.upload //上传
+                , element = layui.element //元素操作
+                , slider = layui.slider //滑块
+            laydate.render({
+                elem: '#test1'
+                //, done: function (value, date, endDate) {
+                //    date1 = date;
+                //}
+            });
+            laydate.render({
+                elem: '#test2'
+                //, done: function (value, date, endDate) {
+                //    date2 = date;
+                //}
+            });
+            //监听Tab切换
+            element.on('tab(demo)', function (data) {
+                layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
+                    tips: 1
+                });
+            });
+            //执行一个 table 实例
+            table.render(
+                {
+                    elem: '#demo'
+                    //, url: 'GetWork'
+                    //, method: 'post'
+                    //, where: {
+
+                    //      timeStart: $('#test1').val()
+                    //    , timeEnd: $('#test2').val()
+                    //    , barcode: $('#test3').val()
+                    //    , recipes: $('#test4').val()
+                    //    , worker: $('#test5').val()
+                    //}
+                    , height: 'full-120'
+                    , title: '生产包装记录表'
+                    , page: { theme: '#c00' } //开启分页
+                    , toolbar: true // 开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+                    , totalRow: false//开启合计行
+                    , id: 'table_work'
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+                        , { field: 'ProductModel', title: '配方名称',width:700, fixed: 'left' }
+                        , { field: 'Part1Name', title: '部件1名称', width: 200 }
+                        , { field: 'Part1Code', title: '部件1条码', width: 200 }
+                        , { field: 'Part2Name', title: '部件2名称', width: 200 }
+                        , { field: 'Part2Code', title: '部件2条码', width: 200 }
+                        , { field: 'Part3Name', title: '部件3名称', width: 200 }
+                        , { field: 'Part3Code', title: '部件3条码', width: 200 }
+                        , { field: 'Part4Name', title: '部件4名称', width: 200 }
+                        , { field: 'Part4Code', title: '部件4条码', width: 200 }
+                        , { field: 'Part5Name', title: '部件5名称', width: 200 }
+                        , { field: 'Part5Code', title: '部件5条码', width: 200 }
+                        , { field: 'Part6Name', title: '部件6名称', width: 200 }
+                        , { field: 'Part6Code', title: '部件6条码', width: 200 }
+                        , { field: 'Part7Name', title: '部件7名称', width: 200 }
+                        , { field: 'Part7Code', title: '部件7条码', width: 200 }
+                        , { field: 'Part8Name', title: '部件8名称', width: 200 }
+                        , { field: 'Part8Code', title: '部件8条码', width: 200 }
+                        , { field: 'Part9Name', title: '部件9名称', width: 200}
+                        , { field: 'Part9Code', title: '部件9条码', width: 200 }
+                        , { field: 'Part10Name', title: '部件10名称', width: 200 }
+                        , { field: 'Part10Code', title: '部件10条码', width: 200 }
+                        , { field: 'Part11Name', title: '部件11名称', width: 200 }
+                        , { field: 'Part11Code', title: '部件11条码', width: 200 }
+                        , { field: 'Part12Name', title: '部件12名称', width: 200 }
+                        , { field: 'Part12Code', title: '部件12条码', width: 200 }
+                        , { field: 'Time', title: '时间', width: 200 }
+                        , { field: 'Enter', title: '操作员工', width: 200 }
+                        //, { fixed: 'right', align: 'center', toolbar: '#barDemo' }
+                    ]]
+                });
+            $(function () {
+                $('#btn_search').click(function () {
+                    var id = $('#search_id').val();
+                    var station = $('#select_station option:selected').val();
+                    var date1 = $('#test1').val();
+                    var date2 = $('#test2').val();
+                    console.log(date1);
+                    table.reload('table_work', {
+                        url: 'GetWork'
+                        , method: 'post'
+                        , where: {
+                            timeStart: $('#test1').val()
+                            , timeEnd: $('#test2').val()
+                            , barcode: $('#test3').val()
+                            , recipes: $('#test4').val()
+                            , worker: $('#test5').val()
+                        }
+                        , page: { curr: 1 }
+                    });
+                    console.log("0k");
+                    //console.log(date1, date2,id,station);
+                    //$.ajax({
+                    //    url: "123"
+                    //    , type: 'post'
+                    //    , dataType: 'json'
+                    //    //, data: date1, date2
+                    //    , success: function (data) {
+                    //        console.log(date1, date2);
+                    //    }
+                    //});
+                });
+            });
+        });
+    </script>
+</body>
+</html>

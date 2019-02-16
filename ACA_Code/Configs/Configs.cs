@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*******************************************************************************
+ * config文件操作
+ * author:qiupeng
+ * date :2018/10
+*********************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -136,6 +136,18 @@ $(function ($) {
     
 });
 $(function () {
+    $.ajax({
+        url: "/Home/GetCurrentUser"
+        , type: 'post'
+        , dataType: 'json'
+        , success: function (data) {
+            if (data.state == 'success') {
+                var currentUser = data.data;
+                $('.name').text(currentUser.UserName);
+                $('.level').text(currentUser.UserAuthority);
+            }
+        }
+    });
     var item = $('.nav nav - pills');
     
     if (!item.hasClass('open')) {
