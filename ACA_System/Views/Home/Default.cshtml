@@ -1,7 +1,4 @@
 ﻿
-@{
-    Layout = null;
-}
 
 <!DOCTYPE html>
 
@@ -96,7 +93,7 @@
                     myChart2.setOption({
                         title: {
                             text: "生产包装总数:  " + data.count,
-                            x: 'center'
+                            
                         },
                         legend: {
                             data: legendData,
@@ -151,15 +148,111 @@
                 }
             });
         }
+        //刷新半成品总数
+        function RefreshChart5() {
+            $.ajax({
+                url: "/Home/RefreshCharts5",
+                data: { time1: window.dateStart, time2: window.dateEnd },
+                type: "Post",
+                dataType: "Json",
+                success: function (data) {
+
+                    var seriesData = [];
+
+                    var legendData = [];
+                    //定义一个object引用类型对象，
+                    var map = {};
+                    //循环向数组中放入值
+                    for (var i = 0; i < data.data.length; i++) {
+
+                        map = {};
+
+                        map.name = data.data[i].name;
+
+                        map.value = data.data[i].value;
+
+                        seriesData[i] = map;
+
+                        legendData[i] = map.name;
+                    }
+                    //for (var i = 0; i < data.length; i++) {
+                    //    nums.push(data[i]);
+                    //}
+                    myChart5.setOption({
+                        title: {
+                            text: "半成品总数:  " + data.count,
+                            
+                        },
+                        legend: {
+                            data: legendData,
+                        },
+                        series: {
+                            data: seriesData,
+                        }
+                    });
+
+                }
+            });
+        }
+        ///刷新生产维修
+        function RefreshChart6() {
+            $.ajax({
+                url: "/Home/RefreshCharts6",
+                data: { time1: window.dateStart, time2: window.dateEnd },
+                type: "Post",
+                dataType: "Json",
+                success: function (data) {
+
+                    var seriesData = [];
+
+                    var legendData = [];
+                    //定义一个object引用类型对象，
+                    var map = {};
+                    //循环向数组中放入值
+                    for (var i = 0; i < data.data.length; i++) {
+
+                        map = {};
+
+                        map.name = data.data[i].name;
+
+                        map.value = data.data[i].value;
+
+                        seriesData[i] = map;
+
+                        legendData[i] = map.name;
+                    }
+                    //for (var i = 0; i < data.length; i++) {
+                    //    nums.push(data[i]);
+                    //}
+                    myChart6.setOption({
+                        title: {
+                            text: "生产维修总数:  " + data.count,
+                            
+                        },
+                        legend: {
+                            data: legendData,
+                        },
+                        series: {
+                            data: seriesData,
+                        }
+                    });
+
+                }
+            });
+        }
         var t1 = window.setInterval("RefreshChart1()", 5000);
         var t2 = window.setInterval("RefreshChart2()", 5000);
         var t3 = window.setInterval("RefreshChart3()", 5000);
         var t4 = window.setInterval("RefreshChart4()", 5000);
+        var t5 = window.setInterval("RefreshChart5()", 5000);
+        var t6 = window.setInterval("RefreshChart6()", 5000);
         $(function () {
             RefreshChart1();
             RefreshChart2();
             RefreshChart3();
             RefreshChart4();
+            RefreshChart5();
+            RefreshChart6();
         });
     </script>
 </head>
@@ -185,6 +278,10 @@
     <div>
         <div id="baoxiu" style="width:800px;height:400px;display:inline-block;margin-left:20px;margin-top:10px"> </div>
         <div id="fangong" style="width:800px;height:400px;display:inline-block;margin-left:30px;margin-top:10px"></div>
+    </div>
+    <div>
+        <div id="banchengpin" style="width:800px;height:400px;display:inline-block;margin-left:20px;margin-top:10px"> </div>
+        <div id="weixiu" style="width:800px;height:400px;display:inline-block;margin-left:30px;margin-top:10px"></div>
     </div>
     <script>
         layui.use(['laydate'], function () {
@@ -228,7 +325,7 @@
             },
             title: {
                 text: "整机人工台总数",
-                x: 'center'
+                x: 'left'
             },
             legend: {
                 orient: 'vertical',
@@ -257,7 +354,7 @@
             },
             title: {
                 text: "生产包装总数",
-                x: 'center'
+                x: 'left'
             },
             legend: {
                 orient: 'vertical',
@@ -282,7 +379,7 @@
         var option3 = {
             title: {
                 
-                x: 'center',
+                x: 'left',
             },
             tooltip: {
                 formatter: "{b}:{c}%",
@@ -319,14 +416,78 @@
                 type: 'value',
             },
             series: [{
-                label: seriesLabel,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        
+                    }
+                },
                 name: '返工总数',
                 type: 'bar',
-
+                barWidth: 50,
             },
             ]
         };
         myChart4.setOption(option4);
+        //半成品charts初始化
+        var myChart5 = echarts.init(document.getElementById('banchengpin'), 'chalk');
+        var option5 = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            title: {
+                text: "半成品总数",
+                x: 'left'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'right',
+            },
+            series: [{
+                name: "半成品总数",
+                type: 'pie',
+                radius: '50%',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{b} : {c}',
+                    }
+                },
+            }]
+        };
+        myChart5.setOption(option5);
+        //生产维修
+        var myChart6 = echarts.init(document.getElementById('weixiu'), 'chalk');
+        var option6 = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            title: {
+                text: "生产维修总数",
+                x: 'left'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'right',
+            },
+            series: [{
+                name: "生产维修总数",
+                type: 'pie',
+                radius: '50%',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{b} : {c}',
+                    }
+                },
+            }]
+        };
+        myChart6.setOption(option6);
     </script>
 
 </body>

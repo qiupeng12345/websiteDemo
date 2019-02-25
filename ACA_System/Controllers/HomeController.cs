@@ -111,6 +111,64 @@ namespace ACA_System.Controllers
             int count= ProductCodeService.GetCount("返工", time1, time2);
             return Content(new AjaxResult() { state = ResultType.success.ToString(), data = count}.ToJson());
         }
+        //刷新半成品
+        public ActionResult RefreshCharts5(string time1, string time2)
+        {
+            int count1 = ProductCodeService.GetCount("半成品", time1, time2);
+            string[] name = ProductCodeService.GetName("半成品", time1, time2);
+            List<string> list = new List<string>();
+            for (int i = 0; i < name.Length; i++)
+            {
+                string getname = name[i].Split('半')[0];
+                if (!list.Contains(getname))
+                {
+                    list.Add(getname);
+                }
+            }
+            string[] chartName = new string[list.Count];
+            float[] chartData = new float[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                chartName[i] = list[i];
+                chartData[i] = ProductCodeService.GetCount(list[i] + "半成品", time1, time2);
+            }
+            List<object> listSend = new List<object>();
+            for (int i = 0; i < chartName.Length; i++)
+            {
+                listSend.Add(new { name = chartName[i], value = chartData[i] });
+            }
+            ////
+            return Content(new AjaxResult() { state = ResultType.success.ToString(), data = listSend, count = count1 }.ToJson());
+        }
+        //刷新 生产维修
+        public ActionResult RefreshCharts6(string time1, string time2)
+        {
+            int count1 = ProductCodeService.GetCount("生产维修", time1, time2);
+            string[] name = ProductCodeService.GetName("生产维修", time1, time2);
+            List<string> list = new List<string>();
+            for (int i = 0; i < name.Length; i++)
+            {
+                string getname = name[i].Split('修')[1];
+                if (!list.Contains(getname))
+                {
+                    list.Add(getname);
+                }
+            }
+            string[] chartName = new string[list.Count];
+            float[] chartData = new float[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                chartName[i] = list[i];
+                chartData[i] = ProductCodeService.GetCount("生产维修"+list[i], time1, time2);
+            }
+            List<object> listSend = new List<object>();
+            for (int i = 0; i < chartName.Length; i++)
+            {
+                listSend.Add(new { name = chartName[i], value = chartData[i] });
+            }
+            ////
+            return Content(new AjaxResult() { state = ResultType.success.ToString(), data = listSend, count = count1 }.ToJson());
+        }
         public ActionResult GetCurrentUser()
         {
             UserEntity currentUser = new UserEntity();

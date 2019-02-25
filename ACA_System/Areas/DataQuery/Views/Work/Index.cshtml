@@ -51,6 +51,7 @@
             <input type="text" class="layui-input" id="test5" placeholder="请输入员工" />
         </div>
         <button class="layui-btn" data-type="reload" id="btn_search">查询</button>
+        <button class="layui-btn" data-type="reload" id="btn_Filter">配方筛选</button>
     </div>
 
     <table class="layui-hide" id="demo"></table>
@@ -106,35 +107,8 @@
                     , id: 'table_work'
                     , cols: [[ //表头
                         { type: 'checkbox', fixed: 'left' }
-                        , { field: 'ProductModel', title: '配方名称',width:700, fixed: 'left' }
-                        , { field: 'Part1Name', title: '部件1名称', width: 200 }
-                        , { field: 'Part1Code', title: '部件1条码', width: 200 }
-                        , { field: 'Part2Name', title: '部件2名称', width: 200 }
-                        , { field: 'Part2Code', title: '部件2条码', width: 200 }
-                        , { field: 'Part3Name', title: '部件3名称', width: 200 }
-                        , { field: 'Part3Code', title: '部件3条码', width: 200 }
-                        , { field: 'Part4Name', title: '部件4名称', width: 200 }
-                        , { field: 'Part4Code', title: '部件4条码', width: 200 }
-                        , { field: 'Part5Name', title: '部件5名称', width: 200 }
-                        , { field: 'Part5Code', title: '部件5条码', width: 200 }
-                        , { field: 'Part6Name', title: '部件6名称', width: 200 }
-                        , { field: 'Part6Code', title: '部件6条码', width: 200 }
-                        , { field: 'Part7Name', title: '部件7名称', width: 200 }
-                        , { field: 'Part7Code', title: '部件7条码', width: 200 }
-                        , { field: 'Part8Name', title: '部件8名称', width: 200 }
-                        , { field: 'Part8Code', title: '部件8条码', width: 200 }
-                        , { field: 'Part9Name', title: '部件9名称', width: 200}
-                        , { field: 'Part9Code', title: '部件9条码', width: 200 }
-                        , { field: 'Part10Name', title: '部件10名称', width: 200 }
-                        , { field: 'Part10Code', title: '部件10条码', width: 200 }
-                        , { field: 'Part11Name', title: '部件11名称', width: 200 }
-                        , { field: 'Part11Code', title: '部件11条码', width: 200 }
-                        , { field: 'Part12Name', title: '部件12名称', width: 200 }
-                        , { field: 'Part12Code', title: '部件12条码', width: 200 }
-                        , { field: 'Time', title: '时间', width: 200 }
-                        , { field: 'Enter', title: '操作员工', width: 200 }
-                        //, { fixed: 'right', align: 'center', toolbar: '#barDemo' }
                     ]]
+
                 });
             $(function () {
                 $('#btn_search').click(function () {
@@ -153,7 +127,99 @@
                             , recipes: $('#test4').val()
                             , worker: $('#test5').val()
                         }
-                        , page: { curr: 1 }
+                        , page: { theme: '#c00' }
+                        , cols: [[ //表头
+                            { type: 'checkbox', fixed: 'left' }
+                            , { field: 'Id', title: '数据编号', width: 200, sort: true }
+                            , { field: 'ProductModel', title: '配方名称', width: 700, sort: true }
+                            , { field: 'Part1Name', title: '部件1名称', width: 200, sort: true, hide: false }
+                            , { field: 'Part1Code', title: '部件1条码', width: 200, sort: true, hide: false }
+                            , { field: 'Part2Name', title: '部件2名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part2Code', title: '部件2条码', width: 200, sort: true, hide: false}
+                            , { field: 'Part3Name', title: '部件3名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part3Code', title: '部件3条码', width: 200, sort: true, hide: false}
+                            , { field: 'Part4Name', title: '部件4名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part4Code', title: '部件4条码', width: 200, sort: true, hide: false }
+                            , { field: 'Part5Name', title: '部件5名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part5Code', title: '部件5条码', width: 200, sort: true, hide: false }
+                            , { field: 'Part6Name', title: '部件6名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part6Code', title: '部件6条码', width: 200, sort: true, hide: false }
+                            , { field: 'Part7Name', title: '部件7名称', width: 200, sort: true, hide: false }
+                            , { field: 'Part7Code', title: '部件7条码', width: 200, sort: true, hide: false}
+                            , { field: 'Part8Name', title: '部件8名称', width: 200, sort: true, hide: false }
+                            , { field: 'Part8Code', title: '部件8条码', width: 200, sort: true, hide: false}
+                            , { field: 'Part9Name', title: '部件9名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part9Code', title: '部件9条码', width: 200, sort: true, hide: false }
+                            , { field: 'Part10Name', title: '部件10名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part10Code', title: '部件10条码', width: 200, sort: true, hide: false}
+                            , { field: 'Part11Name', title: '部件11名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part11Code', title: '部件11条码', width: 200, sort: true, hide: false}
+                            , { field: 'Part12Name', title: '部件12名称', width: 200, sort: true, hide: false}
+                            , { field: 'Part12Code', title: '部件12条码', width: 200, sort: true, hide: false }
+                            , { field: 'Time', title: '时间', width: 200, sort: true, hide: false}
+                            , { field: 'Enter', title: '操作员工', width: 200, fixed: 'right', sort: true, hide: false }
+                            //, { fixed: 'right', align: 'center', toolbar: '#barDemo' }
+                        ]]
+                    });
+                    //console.log(date1, date2,id,station);
+                    //$.ajax({
+                    //    url: "123"
+                    //    , type: 'post'
+                    //    , dataType: 'json'
+                    //    //, data: date1, date2
+                    //    , success: function (data) {
+                    //        console.log(date1, date2);
+                    //    }
+                    //});
+                });
+                $('#btn_Filter').click(function () {
+                    var id = $('#search_id').val();
+                    var station = $('#select_station option:selected').val();
+                    var date1 = $('#test1').val();
+                    var date2 = $('#test2').val();
+                    console.log(date1);
+                    table.reload('table_work', {
+                        url: 'GetFilter'
+                        , method: 'post'
+                        , where: {
+                            timeStart: $('#test1').val()
+                            , timeEnd: $('#test2').val()
+                            , barcode: $('#test3').val()
+                            , recipes: $('#test4').val()
+                            , worker: $('#test5').val()
+                        }
+                        , page: false
+                        , cols: [[ //表头
+                            { type: 'checkbox', fixed: 'left' }
+                            , { field: 'ProductModel', title: '配方名称', width: 1000, fixed: 'left', sort: true }
+                            , { field: 'No', title: '数量', width: 200, sort: true, totalRow: true }
+                            , { field: 'Part1Name', title: '部件1名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part1Code', title: '部件1条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part2Name', title: '部件2名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part2Code', title: '部件2条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part3Name', title: '部件3名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part3Code', title: '部件3条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part4Name', title: '部件4名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part4Code', title: '部件4条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part5Name', title: '部件5名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part5Code', title: '部件5条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part6Name', title: '部件6名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part6Code', title: '部件6条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part7Name', title: '部件7名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part7Code', title: '部件7条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part8Name', title: '部件8名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part8Code', title: '部件8条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part9Name', title: '部件9名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part9Code', title: '部件9条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part10Name', title: '部件10名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part10Code', title: '部件10条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part11Name', title: '部件11名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part11Code', title: '部件11条码', width: 200, sort: true,hide: true }
+                            , { field: 'Part12Name', title: '部件12名称', width: 200, sort: true,hide: true }
+                            , { field: 'Part12Code', title: '部件12条码', width: 200, sort: true,hide: true }
+                            , { field: 'Time', title: '时间', width: 200, sort: true,hide: true }
+                            , { field: 'Enter', title: '操作员工', width: 200, fixed: 'right', sort: true,hide: true }
+                        ]]
                     });
                     console.log("0k");
                     //console.log(date1, date2,id,station);
